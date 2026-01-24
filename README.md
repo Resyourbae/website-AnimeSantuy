@@ -1,102 +1,95 @@
 <div align="center">
 
-![Anime AI App Banner](public/assets/images/mybini.jpg)
+![Anime Santuy Banner](public/assets/images/mybini.jpg)
 
-# 🎌 Anime AI - Laravel Application
+# 🎌 Anime Santuy
 
-**Discover, Explore, and Get AI-Powered Anime Recommendations**
+**Temukan dan Jelajahi Anime Favorit Kamu!**
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=FF2D20&center=true&vCenter=true&width=600&lines=Welcome+to+Anime+AI+Platform!;Discover+Your+Next+Favorite+Anime;AI-Powered+Recommendations;Built+with+Laravel+%26+Love+%E2%9D%A4%EF%B8%8F" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=FF2D20&center=true&vCenter=true&width=600&lines=Selamat+Datang+di+Anime+Santuy!;Temukan+Anime+Favorit+Kamu;Nonton+Anime+Makin+Asyik;Dibuat+dengan+Laravel+%26+Love+%E2%9D%A4%EF%B8%8F" alt="Typing SVG" />
 
 </div>
 
 ---
 
-## 📋 Table of Contents
+## 📋 Daftar Isi
 
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [📦 Prerequisites](#-prerequisites)
-- [🚀 Installation & Setup](#-installation--setup)
-- [⚙️ Configuration](#️-configuration)
-- [🎨 Tailwind CSS Setup](#-tailwind-css-setup)
+- [✨ Fitur](#-fitur)
+- [🛠️ Teknologi](#️-teknologi)
+- [📦 Prasyarat](#-prasyarat)
+- [🚀 Instalasi & Setup](#-instalasi--setup)
+- [⚙️ Konfigurasi](#️-konfigurasi)
+- [🎨 Setup Tailwind CSS](#-setup-tailwind-css)
 - [🧪 Testing](#-testing)
-- [📸 Screenshots](#-screenshots)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- [📸 Screenshot](#-screenshot)
+- [🤝 Kontribusi](#-kontribusi)
+- [📄 Lisensi](#-lisensi)
 
 ---
 
-## ✨ Features
+## ✨ Fitur
 
-🎯 **Core Features:**
+🎯 **Fitur Utama:**
 
-- 📺 Browse top anime from Jikan API (MyAnimeList)
-- 🔍 Search anime by title, genre, or rating
-- 💬 AI-powered chatbot for personalized recommendations
-- 🎨 Modern, responsive UI with Tailwind CSS
-- ⚡ Fast and optimized Laravel backend
-
-🤖 **AI Integration:**
-
-- Smart anime recommendations based on preferences
-- Natural language chat interface
-- Context-aware responses using anime database
+- 📺 Lihat daftar anime terpopuler dari Jikan API (MyAnimeList)
+- 🔍 Cari anime berdasarkan judul, genre, atau rating
+- � Detail lengkap setiap anime (sinopsis, genre, rating, dll)
+- 🎨 Tampilan modern dan responsif dengan Tailwind CSS
+- ⚡ Backend Laravel yang cepat dan optimal
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Teknologi
 
-| Category       | Technology                     |
+| Kategori       | Teknologi                      |
 | -------------- | ------------------------------ |
 | **Framework**  | Laravel 11.x                   |
 | **Frontend**   | Blade Templates + Tailwind CSS |
 | **Database**   | MySQL / PostgreSQL             |
 | **API**        | Jikan API (MyAnimeList)        |
-| **AI Service** | OpenAI / Gemini API            |
 | **Build Tool** | Vite                           |
 
 ---
 
-## 📦 Prerequisites
+## 📦 Prasyarat
 
-Pastikan sistem Anda sudah terinstall:
+Pastikan sistem kamu sudah terinstall:
 
 - ✅ PHP >= 8.2
 - ✅ Composer
 - ✅ Node.js & npm (v18 atau lebih baru)
-- ✅ MySQL / PostgreSQL
+- ✅ MySQL / PostgreSQL (opsional)
 - ✅ Git
 
 ---
 
-## 🚀 Installation & Setup
+## 🚀 Instalasi & Setup
 
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/username/anime-ai.git
-cd anime-ai
+git clone https://github.com/username/anime-santuy.git
+cd anime-santuy
 ```
 
-### 2️⃣ Install PHP Dependencies
+### 2️⃣ Install Dependencies PHP
 
 ```bash
 composer install
 ```
 
-### 3️⃣ Install Node.js Dependencies
+### 3️⃣ Install Dependencies Node.js
 
 ```bash
 npm install
 ```
 
-### 4️⃣ Setup Environment File
+### 4️⃣ Setup File Environment
 
 Salin file `.env.example` menjadi `.env`:
 
@@ -114,28 +107,28 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-> **💡 Penting:** Perintah ini akan menghasilkan `APP_KEY` yang unik untuk aplikasi Anda. Key ini digunakan untuk enkripsi data.
+> **💡 Penting:** Perintah ini akan menghasilkan `APP_KEY` yang unik untuk aplikasi kamu. Key ini digunakan untuk enkripsi data.
 
-### 6️⃣ Configure Database
+### 6️⃣ Konfigurasi Database (Opsional)
 
-Edit file `.env` dan sesuaikan konfigurasi database:
+Edit file `.env` dan sesuaikan konfigurasi database jika diperlukan:
 
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=anime_ai
+DB_DATABASE=anime_santuy
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 7️⃣ Run Database Migrations
+### 7️⃣ Jalankan Database Migrations (Opsional)
 
 ```bash
 php artisan migrate
 ```
 
-Optional - Seed database dengan data anime:
+Opsional - Isi database dengan data anime sample:
 
 ```bash
 php artisan db:seed
@@ -143,70 +136,54 @@ php artisan db:seed
 
 ---
 
-## ⚙️ Configuration
+## ⚙️ Konfigurasi
 
-### 🔑 API Keys Setup
+### 🔑 Setup API
 
-Edit file `.env` dan tambahkan API keys yang diperlukan:
+Edit file `.env` dan tambahkan URL Jikan API:
 
 ```env
 # Jikan API (MyAnimeList)
 ANIME_API_URL=https://api.jikan.moe/v4
-
-# OpenAI API (untuk AI Chat)
-OPENAI_API_KEY=your-openai-api-key-here
-
-# Atau gunakan Gemini API
-GEMINI_API_KEY=your-gemini-api-key-here
 ```
 
 > **📝 Catatan:**
 >
-> - **Jikan API** tidak memerlukan API key, gratis untuk digunakan
-> - **OpenAI API** bisa didapat di: https://platform.openai.com/api-keys
-> - **Gemini API** bisa didapat di: https://ai.google.dev/
+> - **Jikan API** tidak memerlukan API key dan gratis untuk digunakan
+> - API ini menyediakan data lengkap dari MyAnimeList
 
 ---
 
-## 🎨 Tailwind CSS Setup
+## 🎨 Setup Tailwind CSS
 
 ### 1️⃣ Install Tailwind CSS
 
 Tailwind CSS sudah termasuk dalam `package.json`. Jalankan:
 
 ```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+npm install tailwindcss@next @tailwindcss/vite@next
 ```
 
-### 2️⃣ Configure Tailwind
+> **📝 Catatan:** Project ini menggunakan **Tailwind CSS v4.1** yang memiliki syntax baru dan lebih simpel!
 
-File `tailwind.config.js` sudah dikonfigurasi. Pastikan isinya seperti ini:
+### 2️⃣ Konfigurasi di app.css
 
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-    content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-    ],
-    theme: {
-        extend: {},
-    },
-    plugins: [],
-};
-```
-
-### 3️⃣ Add Tailwind Directives
-
-File `resources/css/app.css` harus berisi:
+File `resources/css/app.css` menggunakan syntax Tailwind v4.1:
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
 ```
+
+> **✨ Kelebihan Tailwind v4.1:**
+>
+> - Tidak perlu `tailwind.config.js` lagi
+> - Lebih cepat dan efisien
+> - Syntax lebih sederhana dengan `@import` dan `@source`
 
 ### 4️⃣ Build Assets
 
@@ -224,7 +201,7 @@ npm run build
 
 ---
 
-## 🏃 Running the Application
+## 🏃 Menjalankan Aplikasi
 
 ### Development Server
 
@@ -234,7 +211,7 @@ php artisan serve
 
 Aplikasi akan berjalan di: **http://localhost:8000**
 
-### With Vite Dev Server (untuk hot reload CSS/JS)
+### Dengan Vite Dev Server (untuk hot reload CSS/JS)
 
 Di terminal pertama:
 
@@ -252,7 +229,7 @@ npm run dev
 
 ## 🧪 Testing
 
-### Run Tests
+### Jalankan Tests
 
 ```bash
 php artisan test
@@ -260,14 +237,14 @@ php artisan test
 
 ### Test API Endpoints
 
-Test Jikan API connection:
+Test koneksi Jikan API:
 
 ```bash
 # Buka di browser atau curl
 http://localhost:8000/test-jikan
 ```
 
-Test service configuration:
+Test konfigurasi service:
 
 ```bash
 # Buka di browser
@@ -276,7 +253,7 @@ http://localhost:8000/dump-anime-url
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshot
 
 <div align="center">
 
@@ -284,36 +261,36 @@ http://localhost:8000/dump-anime-url
 
 ![Homepage](docs/screenshots/homepage.png)
 
-### 💬 AI Chat Interface
-
-![AI Chat](docs/screenshots/chat.png)
-
-### 📱 Responsive Design
+### � Responsive Design
 
 ![Responsive](docs/screenshots/responsive.png)
+
+### � Detail Anime
+
+![Detail](docs/screenshots/detail.png)
 
 </div>
 
 ---
 
-## 📁 Project Structure
+## 📁 Struktur Proyek
 
 ```
-anime-ai/
+anime-santuy/
 ├── app/
 │   ├── Http/Controllers/      # Controllers
 │   ├── Models/                 # Eloquent Models
 │   ├── Services/               # Business Logic
 │   └── Helpers/                # Helper Classes
-├── config/                     # Configuration Files
+├── config/                     # File Konfigurasi
 ├── database/                   # Migrations & Seeders
 ├── public/                     # Public Assets
 ├── resources/
 │   ├── css/                    # Stylesheets
 │   ├── js/                     # JavaScript
 │   └── views/                  # Blade Templates
-├── routes/                     # Route Definitions
-└── tests/                      # Test Files
+├── routes/                     # Definisi Routes
+└── tests/                      # File Testing
 ```
 
 ---
@@ -338,52 +315,55 @@ npm run dev
 
 Periksa konfigurasi database di `.env` dan pastikan MySQL/PostgreSQL sudah berjalan.
 
+### Error saat mengakses Jikan API?
+
+Jikan API memiliki rate limit. Tunggu beberapa saat jika terlalu banyak request.
+
 ---
 
-## 🤝 Contributing
+## 🤝 Kontribusi
 
 Kontribusi sangat diterima! Berikut caranya:
 
 1. Fork repository ini
-2. Buat branch feature (`git checkout -b feature/AmazingFeature`)
-3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
+2. Buat branch feature (`git checkout -b feature/FiturKeren`)
+3. Commit perubahan (`git commit -m 'Tambah fitur keren'`)
+4. Push ke branch (`git push origin feature/FiturKeren`)
 5. Buat Pull Request
 
 ---
 
 ## 📝 To-Do List
 
-- [ ] Add user authentication
-- [ ] Implement favorites/watchlist
-- [ ] Add anime rating system
-- [ ] Create mobile app (Flutter/React Native)
-- [ ] Add anime streaming integration
-- [ ] Implement advanced search filters
-- [ ] Add social sharing features
+- [ ] Tambah fitur autentikasi user
+- [ ] Implementasi watchlist/favorites
+- [ ] Sistem rating anime
+- [ ] Filter pencarian advanced
+- [ ] Versi mobile app
+- [ ] Integrasi dengan platform streaming
 
 ---
 
-## 📄 License
+## 📄 Lisensi
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+Project ini menggunakan lisensi **MIT License** - lihat file [LICENSE](LICENSE) untuk detail.
 
 ---
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Resya Anggara**
 
-- GitHub: [@username](https://github.com/username)
-- Email: your.email@example.com
+- GitHub: [@resyaanggara](https://github.com/resyaanggara)
+- Email: resya@example.com
 
 ---
 
 <div align="center">
 
-### ⭐ Star this repo if you like it!
+### ⭐ Kasih bintang repo ini kalau kamu suka!
 
-**Made with ❤️ and Laravel**
+**Dibuat dengan ❤️ dan Laravel**
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="separator">
 
