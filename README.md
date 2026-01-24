@@ -1,59 +1,392 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Anime AI App Banner](public/assets/images/mybini.jpg)
 
-## About Laravel
+# 🎌 Anime AI - Laravel Application
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Discover, Explore, and Get AI-Powered Anime Recommendations**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=FF2D20&center=true&vCenter=true&width=600&lines=Welcome+to+Anime+AI+Platform!;Discover+Your+Next+Favorite+Anime;AI-Powered+Recommendations;Built+with+Laravel+%26+Love+%E2%9D%A4%EF%B8%8F" alt="Typing SVG" />
 
-## Learning Laravel
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📋 Table of Contents
 
-## Laravel Sponsors
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📦 Prerequisites](#-prerequisites)
+- [🚀 Installation & Setup](#-installation--setup)
+- [⚙️ Configuration](#️-configuration)
+- [🎨 Tailwind CSS Setup](#-tailwind-css-setup)
+- [🧪 Testing](#-testing)
+- [📸 Screenshots](#-screenshots)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## ✨ Features
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+🎯 **Core Features:**
 
-## Contributing
+- 📺 Browse top anime from Jikan API (MyAnimeList)
+- 🔍 Search anime by title, genre, or rating
+- 💬 AI-powered chatbot for personalized recommendations
+- 🎨 Modern, responsive UI with Tailwind CSS
+- ⚡ Fast and optimized Laravel backend
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+🤖 **AI Integration:**
 
-## Code of Conduct
+- Smart anime recommendations based on preferences
+- Natural language chat interface
+- Context-aware responses using anime database
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🛠️ Tech Stack
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Category       | Technology                     |
+| -------------- | ------------------------------ |
+| **Framework**  | Laravel 11.x                   |
+| **Frontend**   | Blade Templates + Tailwind CSS |
+| **Database**   | MySQL / PostgreSQL             |
+| **API**        | Jikan API (MyAnimeList)        |
+| **AI Service** | OpenAI / Gemini API            |
+| **Build Tool** | Vite                           |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📦 Prerequisites
+
+Pastikan sistem Anda sudah terinstall:
+
+- ✅ PHP >= 8.2
+- ✅ Composer
+- ✅ Node.js & npm (v18 atau lebih baru)
+- ✅ MySQL / PostgreSQL
+- ✅ Git
+
+---
+
+## 🚀 Installation & Setup
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/username/anime-ai.git
+cd anime-ai
+```
+
+### 2️⃣ Install PHP Dependencies
+
+```bash
+composer install
+```
+
+### 3️⃣ Install Node.js Dependencies
+
+```bash
+npm install
+```
+
+### 4️⃣ Setup Environment File
+
+Salin file `.env.example` menjadi `.env`:
+
+```bash
+# Windows (PowerShell)
+copy .env.example .env
+
+# Linux / macOS
+cp .env.example .env
+```
+
+### 5️⃣ Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+> **💡 Penting:** Perintah ini akan menghasilkan `APP_KEY` yang unik untuk aplikasi Anda. Key ini digunakan untuk enkripsi data.
+
+### 6️⃣ Configure Database
+
+Edit file `.env` dan sesuaikan konfigurasi database:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=anime_ai
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 7️⃣ Run Database Migrations
+
+```bash
+php artisan migrate
+```
+
+Optional - Seed database dengan data anime:
+
+```bash
+php artisan db:seed
+```
+
+---
+
+## ⚙️ Configuration
+
+### 🔑 API Keys Setup
+
+Edit file `.env` dan tambahkan API keys yang diperlukan:
+
+```env
+# Jikan API (MyAnimeList)
+ANIME_API_URL=https://api.jikan.moe/v4
+
+# OpenAI API (untuk AI Chat)
+OPENAI_API_KEY=your-openai-api-key-here
+
+# Atau gunakan Gemini API
+GEMINI_API_KEY=your-gemini-api-key-here
+```
+
+> **📝 Catatan:**
+>
+> - **Jikan API** tidak memerlukan API key, gratis untuk digunakan
+> - **OpenAI API** bisa didapat di: https://platform.openai.com/api-keys
+> - **Gemini API** bisa didapat di: https://ai.google.dev/
+
+---
+
+## 🎨 Tailwind CSS Setup
+
+### 1️⃣ Install Tailwind CSS
+
+Tailwind CSS sudah termasuk dalam `package.json`. Jalankan:
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+### 2️⃣ Configure Tailwind
+
+File `tailwind.config.js` sudah dikonfigurasi. Pastikan isinya seperti ini:
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+};
+```
+
+### 3️⃣ Add Tailwind Directives
+
+File `resources/css/app.css` harus berisi:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### 4️⃣ Build Assets
+
+Untuk development (dengan hot reload):
+
+```bash
+npm run dev
+```
+
+Untuk production build:
+
+```bash
+npm run build
+```
+
+---
+
+## 🏃 Running the Application
+
+### Development Server
+
+```bash
+php artisan serve
+```
+
+Aplikasi akan berjalan di: **http://localhost:8000**
+
+### With Vite Dev Server (untuk hot reload CSS/JS)
+
+Di terminal pertama:
+
+```bash
+php artisan serve
+```
+
+Di terminal kedua:
+
+```bash
+npm run dev
+```
+
+---
+
+## 🧪 Testing
+
+### Run Tests
+
+```bash
+php artisan test
+```
+
+### Test API Endpoints
+
+Test Jikan API connection:
+
+```bash
+# Buka di browser atau curl
+http://localhost:8000/test-jikan
+```
+
+Test service configuration:
+
+```bash
+# Buka di browser
+http://localhost:8000/dump-anime-url
+```
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🏠 Homepage - Top Anime
+
+![Homepage](docs/screenshots/homepage.png)
+
+### 💬 AI Chat Interface
+
+![AI Chat](docs/screenshots/chat.png)
+
+### 📱 Responsive Design
+
+![Responsive](docs/screenshots/responsive.png)
+
+</div>
+
+---
+
+## 📁 Project Structure
+
+```
+anime-ai/
+├── app/
+│   ├── Http/Controllers/      # Controllers
+│   ├── Models/                 # Eloquent Models
+│   ├── Services/               # Business Logic
+│   └── Helpers/                # Helper Classes
+├── config/                     # Configuration Files
+├── database/                   # Migrations & Seeders
+├── public/                     # Public Assets
+├── resources/
+│   ├── css/                    # Stylesheets
+│   ├── js/                     # JavaScript
+│   └── views/                  # Blade Templates
+├── routes/                     # Route Definitions
+└── tests/                      # Test Files
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Port 8000 sudah digunakan?
+
+```bash
+php artisan serve --port=8080
+```
+
+### CSS tidak muncul?
+
+Pastikan Vite dev server berjalan:
+
+```bash
+npm run dev
+```
+
+### Database connection error?
+
+Periksa konfigurasi database di `.env` dan pastikan MySQL/PostgreSQL sudah berjalan.
+
+---
+
+## 🤝 Contributing
+
+Kontribusi sangat diterima! Berikut caranya:
+
+1. Fork repository ini
+2. Buat branch feature (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+---
+
+## 📝 To-Do List
+
+- [ ] Add user authentication
+- [ ] Implement favorites/watchlist
+- [ ] Add anime rating system
+- [ ] Create mobile app (Flutter/React Native)
+- [ ] Add anime streaming integration
+- [ ] Implement advanced search filters
+- [ ] Add social sharing features
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Your Name**
+
+- GitHub: [@username](https://github.com/username)
+- Email: your.email@example.com
+
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you like it!
+
+**Made with ❤️ and Laravel**
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="separator">
+
+_Happy Coding! 🚀_
+
+</div>
