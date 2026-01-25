@@ -286,28 +286,6 @@ Test konfigurasi service:
 http://localhost:8000/dump-anime-url
 ```
 
----
-
-## 📸 Screenshot (Archive)
-
-<div align="center">
-
-### 🏠 Homepage - Top Anime
-
-![Homepage](docs/screenshots/homepage.png)
-
-### 📱 Responsive Design
-
-![Responsive](docs/screenshots/responsive.png)
-
-### 🎬 Detail Anime
-
-![Detail](docs/screenshots/detail.png)
-
-</div>
-
----
-
 ## 📁 Struktur Proyek
 
 ```
