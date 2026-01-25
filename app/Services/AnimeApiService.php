@@ -125,6 +125,11 @@ class AnimeApiService
                         url
                         site
                     }
+                    trailer {
+                        id
+                        site
+                        thumbnail
+                    }
                 }
             }';
 
@@ -771,7 +776,8 @@ class AnimeApiService
             'studios' => $studios,
 
             // Custom for our view (View uses $episodes variable passed from controller)
-            'streaming_episodes' => $episodes
+            'streaming_episodes' => $episodes,
+            'trailer' => $item['trailer'] ?? null
         ];
     }
 
@@ -793,5 +799,188 @@ class AnimeApiService
             12 => 'Desember'
         ];
         return ($months[$date['month'] ?? 0] ?? '') . ' ' . ($date['day'] ?? '') . ', ' . $date['year'];
+    }
+
+    /**
+     * Search Manga with Filters
+     */
+    public function searchManga($params = [])
+    {
+        $page = $params['page'] ?? 1;
+        $perPage = $params['perPage'] ?? 20;
+        $search = $params['search'] ?? null;
+        $genres = $params['genres'] ?? null; // Array
+        $sort = $params['sort'] ?? 'POPULARITY_DESC';
+        $status = $params['status'] ?? null;
+
+        $cacheKey = "search_manga_" . md5(json_encode($params));
+
+        return Cache::remember($cacheKey, now()->addMinutes(15), function () use ($page, $perPage, $search, $genres, $sort, $status) {
+            $query = '
+            query ($page: Int, $perPage: Int, $search: String, $genres: [String], $sort: [MediaSort], $status: MediaStatus) {
+                Page (page: $page, perPage: $perPage) {
+                    pageInfo {
+                        total
+                        perPage
+                        currentPage
+                        lastPage
+                        hasNextPage
+                    }
+                    media (type: MANGA, search: $search, genre_in: $genres, sort: $sort, status: $status) {
+                        id
+                        idMal
+                        title {
+                            romaji
+                            english
+                            native
+                        }
+                        coverImage {
+                            large
+                            extraLarge
+                        }
+                        averageScore
+                        popularity
+                        genres
+                        chapters
+                        volumes
+                        status
+                        format
+                        startDate {
+                            year
+                        }
+                    }
+                }
+            }';
+
+            $variables = [
+                'page' => (int)$page,
+                'perPage' => (int)$perPage,
+                'search' => $search,
+                'genres' => $genres,
+                'sort' => [$sort], // AniList expects array for sort
+                'status' => $status
+            ];
+
+            $data = $this->postGraphQL($query, $variables);
+
+            if (empty($data) || empty($data['data']['Page']['media'])) {
+                return ['data' => [], 'pagination' => []];
+            }
+
+            return [
+                'data' => $this->mapMangaList($data['data']['Page']['media']),
+                'pagination' => $data['data']['Page']['pageInfo']
+            ];
+        });
+    }
+
+    /**
+     * Get Manga List (Paginated)
+     */
+    public function getMangaList($page = 1, $perPage = 20)
+    {
+        return $this->searchManga(['page' => $page, 'perPage' => $perPage, 'sort' => 'POPULARITY_DESC']);
+    }
+
+    /**
+     * Get Full Manga Details
+     */
+    public function getFullManga($id)
+    {
+        return Cache::remember("anilist_manga_{$id}", now()->addHours(1), function () use ($id) {
+            $query = '
+            query ($id: Int) {
+                Media (id: $id, type: MANGA) {
+                    id
+                    idMal
+                    title {
+                        romaji
+                        english
+                        native
+                    }
+                    coverImage {
+                        large
+                        extraLarge
+                    }
+                    bannerImage
+                    description
+                    averageScore
+                    popularity
+                    favourites
+                    genres
+                    chapters
+                    volumes
+                    status
+                    format
+                    startDate {
+                        year
+                        month
+                        day
+                    }
+                    endDate {
+                        year
+                        month
+                        day
+                    }
+                }
+            }';
+
+            $variables = ['id' => $id];
+            $data = $this->postGraphQL($query, $variables);
+
+            if (empty($data) || empty($data['data']['Media'])) {
+                return [];
+            }
+
+            return $this->mapMangaItem($data['data']['Media']);
+        });
+    }
+
+    /**
+     * Map Manga List
+     */
+    private function mapMangaList($list)
+    {
+        return array_map([$this, 'mapMangaItem'], $list);
+    }
+
+    /**
+     * Map Single Manga Item
+     */
+    private function mapMangaItem($item)
+    {
+        $primaryTitle = $item['title']['english'] ?? $item['title']['romaji'] ?? $item['title']['native'];
+
+        $genres = array_map(function ($g) {
+            return ['name' => $g];
+        }, $item['genres'] ?? []);
+
+        return [
+            'id' => $item['id'],
+            'mal_id' => $item['id'],
+            'title' => $primaryTitle,
+            'title_english' => $item['title']['english'] ?? null,
+            'title_japanese' => $item['title']['native'] ?? null,
+            'images' => [
+                'jpg' => [
+                    'image_url' => $item['coverImage']['large'] ?? $item['coverImage']['extraLarge'],
+                    'large_image_url' => $item['coverImage']['extraLarge'] ?? $item['coverImage']['large'],
+                    'small_image_url' => $item['coverImage']['large']
+                ]
+            ],
+            'banner_image' => $item['bannerImage'] ?? null,
+            'score' => isset($item['averageScore']) ? ($item['averageScore'] / 10) : null,
+            'rank' => $item['popularity'] ?? null,
+            'popularity' => $item['popularity'] ?? null,
+            'members' => $item['favourites'] ?? null,
+            'favorites' => $item['favourites'] ?? null,
+            'synopsis' => $item['description'] ?? null,
+            'type' => $item['format'] ?? 'Manga',
+            'chapters' => $item['chapters'] ?? '?',
+            'volumes' => $item['volumes'] ?? '?',
+            'status' => $item['status'] ?? 'Unknown',
+            'year' => $item['startDate']['year'] ?? null,
+            'genres' => $genres
+        ];
     }
 }

@@ -82,7 +82,7 @@
 
 					<!-- Text Container with masking and animation -->
 					<div class="relative z-10 overflow-hidden pl-3 -ml-2 py-1">
-						<h1 class="text-2xl font-bold font-['Montserrat'] tracking-wide animate-logo-text whitespace-nowrap"
+						<h1 class="text-xl md:text-2xl font-black font-['Orbitron'] tracking-tighter uppercase whitespace-nowrap animate-logo-text flex items-center"
 							id="logoText">
 							AnimeSantuy
 						</h1>
@@ -124,10 +124,10 @@
 							class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent {{ request()->is('manga*') ? 'opacity-100' : 'opacity-0 group-hover:opacity-100' }} transition-opacity duration-300 shadow-[0_0_8px_rgba(59,130,246,0.8)]">
 						</div>
 					</a>
-					<button
+					<a href="{{ route('anime.mylist') }}"
 						class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-200">
 						My List
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -194,6 +194,9 @@
 			</div>
 		</div>
 	</footer>
+
+	<!-- Toast Container -->
+	<div id="toastContainer" class="fixed top-24 right-4 z-[200] space-y-4 pointer-events-none"></div>
 
 	<style>
 		/* Shake animation for logo */
@@ -273,11 +276,144 @@
 	</style>
 
 	<script>
+		// --- TOAST NOTIFICATION SYSTEM ---
+		// --- TOAST NOTIFICATION SYSTEM ---
+		function showToast(message, type = 'success') {
+			let container = document.getElementById('toastContainer');
+			// Move container to Top Center for better visibility and modern feel
+			container.className = "fixed top-6 left-1/2 -translate-x-1/2 z-[200] flex flex-col items-center gap-3 pointer-events-none";
+
+			const toast = document.createElement('div');
+
+			// Minimal Design: Glassmorphism, Pill shape, Glow
+			const baseClasses = "flex items-center gap-3 px-6 py-3 rounded-full shadow-2xl backdrop-blur-xl border pointer-events-auto transform transition-all duration-500 ease-out translate-y-[-20px] opacity-0 scale-95";
+
+			// Theme Colors
+			const theme = type === 'success'
+				? 'bg-gray-900/80 border-green-500/30 text-green-400 shadow-green-500/10 hover:shadow-green-500/20'
+				: 'bg-gray-900/80 border-red-500/30 text-red-400 shadow-red-500/10 hover:shadow-red-500/20';
+
+			const icon = type === 'success'
+				? '<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+				: '<svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+
+			toast.className = `${baseClasses} ${theme}`;
+			toast.innerHTML = `
+				${icon}
+				<span class="text-sm font-medium text-gray-100 tracking-wide">${message}</span>
+			`;
+
+			container.appendChild(toast);
+
+			// Animate in
+			requestAnimationFrame(() => {
+				toast.classList.remove('translate-y-[-20px]', 'opacity-0', 'scale-95');
+			});
+
+			// Auto dismiss
+			setTimeout(() => {
+				toast.classList.add('translate-y-[-20px]', 'opacity-0', 'scale-95');
+				setTimeout(() => toast.remove(), 500);
+			}, 3000);
+		}
+
+		// --- MY LIST LOGIC (LocalStorage) ---
+		const MY_LIST_KEY = 'anime_santuy_mylist';
+
+		function getMyList() {
+			return JSON.parse(localStorage.getItem(MY_LIST_KEY) || '[]');
+		}
+
+		function saveMyList(list) {
+			localStorage.setItem(MY_LIST_KEY, JSON.stringify(list));
+			// Dispatch event for other components to listen
+			window.dispatchEvent(new Event('mylist-updated'));
+		}
+
+		function addToMyList(anime) {
+			const list = getMyList();
+			if (list.some(item => item.id === anime.id)) {
+				removeFromMyList(anime.id); // Toggle behavior if clicked again? Or check first.
+				// For heart icon: click usually toggles.
+				return;
+			}
+			list.push(anime);
+			saveMyList(list);
+			showToast(`Berhasil menambahkan <b>${anime.title}</b> ke My List!`);
+			updateComponents();
+		}
+
+		function removeFromMyList(animeId) {
+			let list = getMyList();
+			const anime = list.find(item => item.id === animeId);
+			list = list.filter(item => item.id !== animeId);
+			saveMyList(list);
+			if (anime) showToast(`Menghapus <b>${anime.title}</b> dari My List`, 'error');
+			updateComponents();
+		}
+
+		function isInMyList(animeId) {
+			const list = getMyList();
+			return list.some(item => item.id === animeId);
+		}
+
+		function toggleMyList(item, type = 'anime') {
+			if (isInMyList(item.id)) {
+				removeFromMyList(item.id);
+			} else {
+				// Ensure item has a type property before adding
+				item.item_type = type;
+				addToMyList(item);
+			}
+		}
+
+		function updateComponents() {
+			// Find all heart icons and update their state based on mylist
+			document.querySelectorAll('[data-anime-id]').forEach(btn => {
+				const id = parseInt(btn.getAttribute('data-anime-id'));
+				const icon = btn.querySelector('svg');
+				const list = getMyList();
+				const item = list.find(it => it.id === id);
+				const isFav = !!item;
+
+				if (isFav) {
+					// Filled Heart
+					icon.setAttribute('fill', 'currentColor');
+					icon.classList.add('text-red-500');
+					icon.classList.remove('text-white');
+
+					// If it's a card button with specific hover classes, adjust theme
+					if (item.item_type === 'manga' || btn.classList.contains('hover:bg-pink-600')) {
+						btn.classList.add('bg-pink-600/40');
+						btn.classList.remove('bg-black/40');
+					} else {
+						btn.classList.add('bg-red-600/40');
+						btn.classList.remove('bg-black/40');
+					}
+				} else {
+					// Outline Heart
+					icon.setAttribute('fill', 'none');
+					icon.classList.remove('text-red-500');
+					icon.classList.add('text-white');
+					btn.classList.add('bg-black/40');
+					btn.classList.remove('bg-pink-600/40', 'bg-red-600/40');
+				}
+			});
+		}
+
+		// Initialize components on load
+		document.addEventListener('DOMContentLoaded', updateComponents);
+		window.addEventListener('mylist-updated', updateComponents);
+
+
+		// --- ORIGINAL LOGO ANIMATION (Keep existing) ---
 		document.addEventListener('DOMContentLoaded', function () {
 			const logoImage = document.getElementById('logoImage');
 			const logoContainer = document.getElementById('logoContainer');
 			const logoText = document.getElementById('logoText');
 			const particleContainer = document.getElementById('particleContainer');
+
+			if (!logoImage) return; // Guard clause
 
 			let bounceInterval = null;
 			let particleInterval = null;

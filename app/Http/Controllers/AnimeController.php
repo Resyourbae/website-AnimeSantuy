@@ -45,6 +45,19 @@ class AnimeController extends Controller
 
     public function show($id, AnimeApiService $anime)
     {
+        // Store previous URL if it's an internal list page (Home, Search, Genre, List, Jadwal, MyList)
+        $previous = url()->previous();
+        $currentHost = request()->getSchemeAndHttpHost();
+
+        // Only update back_url if referrer is from our site AND NOT from watch/show itself (to avoid overwriting with loop)
+        if (
+            str_starts_with($previous, $currentHost) &&
+            !str_contains($previous, '/watch/') &&
+            !str_contains($previous, '/anime/')
+        ) {
+            session(['back_url' => $previous]);
+        }
+
         $data = $anime->getFullAnime($id);
         $episodes = $anime->getAnimeEpisodes($id);
         return view('anime.show', ['anime' => $data, 'episodes' => $episodes]);
@@ -82,5 +95,22 @@ class AnimeController extends Controller
         $page = $request->get('page', 1);
         $data = $anime->getAnimeByGenre($genre, $page);
         return view('genre.show', ['animes' => $data['data'], 'pagination' => $data['pagination'], 'genre' => $genre]);
+    }
+
+    public function watch($animeId, $episode, AnimeApiService $anime)
+    {
+        $animeData = $anime->getFullAnime($animeId);
+        $episodes = $anime->getAnimeEpisodes($animeId);
+
+        return view('anime.watch', [
+            'anime' => $animeData,
+            'episodes' => $episodes,
+            'currentEpisode' => $episode
+        ]);
+    }
+
+    public function mylist()
+    {
+        return view('mylist.index');
     }
 }

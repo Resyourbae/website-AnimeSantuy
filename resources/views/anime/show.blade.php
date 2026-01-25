@@ -7,7 +7,7 @@
         <div class="absolute top-0 left-0 w-full z-20 p-4 md:p-6 bg-gradient-to-b from-black/80 to-transparent">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center space-x-2 text-sm md:text-base font-medium">
-                    <a href="{{ url()->previous() }}" onclick="if(document.referrer) { history.back(); return false; }"
+                    <a href="{{ session('back_url', '/') }}"
                         class="flex items-center text-gray-300 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-200 group">
                         <svg class="w-5 h-5 mr-1 transform group-hover:-translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -17,7 +17,21 @@
                         Back
                     </a>
                     <span class="text-gray-500">/</span>
-                    <a href="/" class="text-gray-300 hover:text-white transition-colors">Beranda</a>
+                    @php
+                        $backUrl = session('back_url', '/');
+                        $backLabel = 'Beranda';
+
+                        if (str_contains($backUrl, '/jadwal')) {
+                            $backLabel = 'Jadwal';
+                        } elseif (str_contains($backUrl, '/list')) {
+                            $backLabel = 'List Anime';
+                        } elseif (str_contains($backUrl, '/genre')) {
+                            $backLabel = 'Genre';
+                        } elseif (str_contains($backUrl, '/search') || request()->has('q')) {
+                            $backLabel = 'Pencarian';
+                        }
+                    @endphp
+                    <a href="{{ $backUrl }}" class="text-gray-300 hover:text-white transition-colors">{{ $backLabel }}</a>
                     <span class="text-gray-500">/</span>
                     <span
                         class="text-blue-400 truncate max-w-[200px] md:max-w-md cursor-default">{{ $anime['title'] }}</span>
@@ -111,7 +125,14 @@
 
                     <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-4 mt-6">
-                        <button id="addToFavorites"
+                        <button onclick="toggleMyList({{ json_encode([
+        'id' => $anime['mal_id'] ?? $anime['id'],
+        'title' => $anime['title'],
+        'images' => $anime['images'],
+        'type' => $anime['type'] ?? 'TV',
+        'year' => $anime['year'] ?? '',
+        'score' => $anime['score'] ?? null
+    ]) }})" id="detailFavBtn" data-anime-id="{{ $anime['mal_id'] ?? $anime['id'] }}"
                             class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg border border-white/10 hover:shadow-purple-500/30 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 group">
                             <svg class="w-5 h-5 group-hover:animate-ping" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -211,18 +232,21 @@
                         <div id="episodesGrid"
                             class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                             @foreach($episodes as $episode)
-                                <a href="{{ $episode['url'] ?? '#' }}" target="_blank"
+                                @php
+                                    $epNumber = $episode['mal_id'] ?? $episode['episode_id'] ?? $loop->iteration;
+                                @endphp
+                                <a href="{{ route('anime.watch', [$anime['id'], $epNumber]) }}"
                                     class="block p-3 bg-gray-700/50 hover:bg-blue-600/20 rounded-lg border border-transparent hover:border-blue-500/50 transition-all duration-200 group">
                                     <div class="flex items-center justify-between mb-1">
                                         <span class="text-xs font-bold text-blue-400">EP
-                                            {{ $episode['mal_id'] ?? $episode['episode_id'] ?? $loop->iteration }}</span>
+                                            {{ $epNumber }}</span>
                                         @if(isset($episode['aired']) && $episode['aired'])
                                             <span
                                                 class="text-[10px] text-gray-500">{{ \Carbon\Carbon::parse($episode['aired'])->format('M d, Y') }}</span>
                                         @endif
                                     </div>
                                     <h4 class="text-sm text-gray-200 font-medium line-clamp-1 group-hover:text-blue-300">
-                                        {{ $episode['title'] ?? 'Episode ' . ($episode['mal_id'] ?? $loop->iteration) }}
+                                        {{ $episode['title'] ?? 'Episode ' . $epNumber }}
                                     </h4>
                                 </a>
                             @endforeach
@@ -352,22 +376,22 @@
 
                 if (isFavorited) {
                     addToFavBtn.innerHTML = `
-                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-                                                    </svg>
-                                                    <span>Added to Favorites</span>
-                                                `;
+                                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                                                                    </svg>
+                                                                    <span>Added to Favorites</span>
+                                                                `;
                     addToFavBtn.classList.add('animate-pulse');
                     setTimeout(() => {
                         addToFavBtn.classList.remove('animate-pulse');
                     }, 500);
                 } else {
                     addToFavBtn.innerHTML = `
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                                    </svg>
-                                                    <span>Add to Favorites</span>
-                                                `;
+                                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                                    </svg>
+                                                                    <span>Add to Favorites</span>
+                                                                `;
                 }
             });
         }

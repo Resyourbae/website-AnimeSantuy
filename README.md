@@ -42,7 +42,8 @@
 - 🔍 **Live Search**: Cari anime dengan cepat, lengkap dengan loading indicator animasi.
 - 📜 **Daftar Anime (Infinite Scroll)**: Jelajahi ribuan anime dengan fitur _load more_ tanpa reload halaman.
 - 📅 **Jadwal Tayang**: Cek jadwal rilis episode terbaru setiap harinya.
-- 🚧 **Manga**: (Segera Hadir / Masih dalam tahap pengembangan/maintenance).
+- 📚 **Manga Universe**: Jelajahi ribuan koleksi manga dengan fitur search, kategori, dan filter multi-genre.
+- ❤️ **My List**: Simpan anime dan manga favorit kamu dalam koleksi pribadi (LocalStorage).
 - 🎨 **Modern UI**: Desain responsif dan estetis menggunakan Tailwind CSS.
 - 🌙 **Dark Mode**: Tampilan yang nyaman di mata.
 
@@ -60,7 +61,7 @@
 
 ---
 
-## � Preview Aplikasi
+## 📱 Preview Aplikasi
 
 Berikut adalah tampilan dari aplikasi Anime Santuy:
 
@@ -68,21 +69,21 @@ Berikut adalah tampilan dari aplikasi Anime Santuy:
 
 ### 🏠 Halaman Utama (Home)
 
-_Slider Banner dan Grid Anime Terbaru_
+![Home Page](public/screenshots/home.png)
 
-![Home Hero](public/screenshots/home_hero.png)
+### 🧩 Genre Anime
 
-![Home Updates](public/screenshots/home_updates.png)
+![Genre Page](public/screenshots/genre.png)
 
-### � Daftar Anime (List)
+### 📜 Daftar Anime (List)
 
-_Fitur Load More dan Back to Top_
+![List Page](public/screenshots/list.png)
 
-![List Page](public/screenshots/list_page.png)
+### 📚 Manga Universe
+
+![Manga Page](public/screenshots/manga.png)
 
 ### 📅 Jadwal Tayang (Schedule)
-
-_Jadwal Rilis Harian_
 
 ![Schedule Page](public/screenshots/schedule.png)
 
@@ -287,7 +288,7 @@ http://localhost:8000/dump-anime-url
 
 ---
 
-## 📸 Screenshot
+## 📸 Screenshot (Archive)
 
 <div align="center">
 
@@ -295,11 +296,11 @@ http://localhost:8000/dump-anime-url
 
 ![Homepage](docs/screenshots/homepage.png)
 
-### � Responsive Design
+### 📱 Responsive Design
 
 ![Responsive](docs/screenshots/responsive.png)
 
-### � Detail Anime
+### 🎬 Detail Anime
 
 ![Detail](docs/screenshots/detail.png)
 
@@ -347,7 +348,7 @@ npm run dev
 
 ### Database connection error?
 
-Periksa konfigurasi database di `.env` dan pastikan MySQL/PostgreSQL sudah berjalan.
+Periksa konfigurasi database di `.env` and pastikan MySQL/PostgreSQL sudah berjalan.
 
 ### Error saat mengakses Jikan API?
 
