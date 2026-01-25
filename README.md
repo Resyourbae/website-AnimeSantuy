@@ -1,5 +1,7 @@
 <div align="center">
 
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=150&section=header&reversal=false&color=gradient&customColorList=12,14,16&fontSize=0" />
+
 ![Anime Santuy Banner](public/assets/images/mybini.jpg)
 
 # 🎌 Anime Santuy
@@ -36,11 +38,13 @@
 
 🎯 **Fitur Utama:**
 
-- 📺 Lihat daftar anime terpopuler dari Jikan API (MyAnimeList)
-- 🔍 Cari anime berdasarkan judul, genre, atau rating
-- � Detail lengkap setiap anime (sinopsis, genre, rating, dll)
-- 🎨 Tampilan modern dan responsif dengan Tailwind CSS
-- ⚡ Backend Laravel yang cepat dan optimal
+- 📺 **Home Page**: Menampilkan Anime Terbaru, Populer, dan Tamat dengan tampilan modern.
+- 🔍 **Live Search**: Cari anime dengan cepat, lengkap dengan loading indicator animasi.
+- 📜 **Daftar Anime (Infinite Scroll)**: Jelajahi ribuan anime dengan fitur _load more_ tanpa reload halaman.
+- 📅 **Jadwal Tayang**: Cek jadwal rilis episode terbaru setiap harinya.
+- 🚧 **Manga**: (Segera Hadir / Masih dalam tahap pengembangan/maintenance).
+- 🎨 **Modern UI**: Desain responsif dan estetis menggunakan Tailwind CSS.
+- 🌙 **Dark Mode**: Tampilan yang nyaman di mata.
 
 ---
 
@@ -53,6 +57,36 @@
 | **Database**   | MySQL / PostgreSQL             |
 | **API**        | Jikan API (MyAnimeList)        |
 | **Build Tool** | Vite                           |
+
+---
+
+## � Preview Aplikasi
+
+Berikut adalah tampilan dari aplikasi Anime Santuy:
+
+<div align="center">
+
+### 🏠 Halaman Utama (Home)
+
+_Slider Banner dan Grid Anime Terbaru_
+
+![Home Hero](public/screenshots/home_hero.png)
+
+![Home Updates](public/screenshots/home_updates.png)
+
+### � Daftar Anime (List)
+
+_Fitur Load More dan Back to Top_
+
+![List Page](public/screenshots/list_page.png)
+
+### 📅 Jadwal Tayang (Schedule)
+
+_Jadwal Rilis Harian_
+
+![Schedule Page](public/screenshots/schedule.png)
+
+</div>
 
 ---
 
@@ -77,7 +111,7 @@ git clone https://github.com/username/anime-santuy.git
 cd anime-santuy
 ```
 
-### 2️⃣ Install Dependencies PHP
+### 2️⃣ Install Dependencies
 
 ```bash
 composer install

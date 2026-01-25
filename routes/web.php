@@ -5,24 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Services\AnimeApiService;
 
 Route::get('/', [AnimeController::class, 'index']);
-
-Route::get('/test-jikan', function (AnimeApiService $anime){
-    return $anime->topAnime();
-});
-
-Route::get('/dump-anime-url', function(){
-    return [
-        'config_url' => config('services.anime.url'),
-        'env_value' => env('ANIME_API_URL')
-    ];
-});
-
-Route::get('/debug-http', function(){
-    $url = config('services.anime.url') . '/top/anime';
-    $r = \Illuminate\Support\Facades\Http::get($url);
-    return [
-        'url' => $url,
-        'status' => $r->status(),
-        'body_start' => substr($r->body(), 0, 200)
-    ];
-});
+Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
+Route::get('/genre', [AnimeController::class, 'genre'])->name('anime.genre');
+Route::get('/genre/{genre}', [AnimeController::class, 'showGenre'])->name('anime.genre.show');
+Route::get('/list', [AnimeController::class, 'list'])->name('anime.list');
+Route::get('/search', [AnimeController::class, 'search'])->name('anime.search');
+Route::get('/jadwal', [AnimeController::class, 'jadwal'])->name('anime.jadwal');
