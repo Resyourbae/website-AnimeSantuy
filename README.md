@@ -4,7 +4,7 @@
 
 ![Anime Santuy Banner](public/assets/images/mybini.jpg)
 
-# 🎌 Anime Santuy
+# 🪼 Anime Santuy
 
 **Temukan dan Jelajahi Anime Favorit Kamu!**
 
@@ -367,8 +367,8 @@ Project ini menggunakan lisensi **MIT License** - lihat file [LICENSE](LICENSE) 
 
 **Resya Anggara**
 
-- GitHub: [@resyaanggara](https://github.com/resyaanggara)
-- Email: resya@example.com
+- GitHub: [@Resyourbae(ayserNii)](https://github.com/Resyourbae)
+- Email: resyaanggara98@gmail.com
 
 ---
 
@@ -376,7 +376,7 @@ Project ini menggunakan lisensi **MIT License** - lihat file [LICENSE](LICENSE) 
 
 ### ⭐ Kasih bintang repo ini kalau kamu suka!
 
-**Dibuat dengan ❤️ dan Laravel**
+**Dibuat dengan niat setengah" dan Laravel**
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="separator">
 
