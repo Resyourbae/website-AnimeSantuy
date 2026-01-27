@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\MangaController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 use App\Services\AnimeApiService;
 
@@ -13,7 +15,15 @@ Route::get('/genre/{genre}', [AnimeController::class, 'showGenre'])->name('anime
 Route::get('/list', [AnimeController::class, 'list'])->name('anime.list');
 Route::get('/search', [AnimeController::class, 'search'])->name('anime.search');
 Route::get('/jadwal', [AnimeController::class, 'jadwal'])->name('anime.jadwal');
-Route::get('/mylist', [AnimeController::class, 'mylist'])->name('anime.mylist');
+Route::get('/mylist', [FavoriteController::class, 'index'])->name('anime.mylist');
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle')->middleware('auth');
+
+// Auth Routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Manga Routes
 Route::get('/manga', [MangaController::class, 'index'])->name('manga.index');

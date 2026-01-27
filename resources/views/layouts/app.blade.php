@@ -125,9 +125,32 @@
 						</div>
 					</a>
 					<a href="{{ route('anime.mylist') }}"
-						class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-200">
+						class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
 						My List
 					</a>
+
+					@auth
+						<div class="flex items-center space-x-4 ml-4 pl-4 border-l border-white/10">
+							<span class="text-gray-300 text-sm font-medium hidden md:block">Hi,
+								{{ Auth::user()->name }}</span>
+							<form action="{{ route('logout') }}" method="POST" class="inline">
+								@csrf
+								<button type="submit"
+									class="px-4 py-2 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg text-sm font-medium transition-all duration-200">
+									Logout
+								</button>
+							</form>
+						</div>
+					@else
+						<div class="flex items-center space-x-3 ml-4">
+							<a href="{{ route('login') }}"
+								class="text-gray-400 hover:text-white text-sm font-medium transition-colors">Login</a>
+							<a href="{{ route('register') }}"
+								class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-200">
+								Daftar
+							</a>
+						</div>
+					@endauth
 				</div>
 			</div>
 		</div>
@@ -317,73 +340,83 @@
 			}, 3000);
 		}
 
-		// --- MY LIST LOGIC (LocalStorage) ---
-		const MY_LIST_KEY = 'anime_santuy_mylist';
+		// --- AUTHENTICATION & FAVORITE SYSTEM ---
+		const IS_AUTHENTICATED = {{ Auth::check() ? 'true' : 'false' }};
 
-		function getMyList() {
-			return JSON.parse(localStorage.getItem(MY_LIST_KEY) || '[]');
-		}
-
-		function saveMyList(list) {
-			localStorage.setItem(MY_LIST_KEY, JSON.stringify(list));
-			// Dispatch event for other components to listen
-			window.dispatchEvent(new Event('mylist-updated'));
-		}
-
-		function addToMyList(anime) {
-			const list = getMyList();
-			if (list.some(item => item.id === anime.id)) {
-				removeFromMyList(anime.id); // Toggle behavior if clicked again? Or check first.
-				// For heart icon: click usually toggles.
-				return;
-			}
-			list.push(anime);
-			saveMyList(list);
-			showToast(`Berhasil menambahkan <b>${anime.title}</b> ke My List!`);
-			updateComponents();
-		}
-
-		function removeFromMyList(animeId) {
-			let list = getMyList();
-			const anime = list.find(item => item.id === animeId);
-			list = list.filter(item => item.id !== animeId);
-			saveMyList(list);
-			if (anime) showToast(`Menghapus <b>${anime.title}</b> dari My List`, 'error');
-			updateComponents();
-		}
-
-		function isInMyList(animeId) {
-			const list = getMyList();
-			return list.some(item => item.id === animeId);
-		}
 
 		function toggleMyList(item, type = 'anime') {
-			if (isInMyList(item.id)) {
-				removeFromMyList(item.id);
-			} else {
-				// Ensure item has a type property before adding
-				item.item_type = type;
-				addToMyList(item);
+			if (!IS_AUTHENTICATED) {
+				showToast('Silakan <b>Login</b> terlebih dahulu untuk menambah ke My List', 'error');
+				// Optional: redirect to login after delay
+				setTimeout(() => {
+					window.location.href = "{{ route('login') }}";
+				}, 1500);
+				return;
 			}
+
+			// If authenticated, use server-side API
+			const payload = {
+				id: item.id || item.mal_id,
+				title: item.title,
+				image_url: item.images?.jpg?.image_url || item.image_url,
+				type: item.type,
+				score: item.score,
+				year: item.year,
+				item_type: type,
+				_token: '{{ csrf_token() }}'
+			};
+
+			fetch("{{ route('favorites.toggle') }}", {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'X-CSRF-TOKEN': '{{ csrf_token() }}'
+				},
+				body: JSON.stringify(payload)
+			})
+				.then(response => response.json())
+				.then(data => {
+					const itemId = payload.id.toString();
+					if (data.status === 'added') {
+						showToast(data.message);
+						if (!serverFavorites.includes(itemId)) serverFavorites.push(itemId);
+					} else {
+						showToast(data.message, 'error');
+						serverFavorites = serverFavorites.filter(id => id !== itemId);
+					}
+
+					// Refresh local state if you want to keep any sync, 
+					if (window.location.pathname === '/mylist') {
+						window.location.reload();
+					} else {
+						// Update icons manually
+						updateComponentsFromServer();
+					}
+				})
+				.catch(err => {
+					console.error(err);
+					showToast('Terjadi kesalahan saat menyimpan favorit', 'error');
+				});
 		}
 
-		function updateComponents() {
-			// Find all heart icons and update their state based on mylist
+		// Since we're moving to DB, we should probably fetch current favorites to update UI icons
+		// Since we're moving to DB, we should probably fetch current favorites to update UI icons
+		let serverFavorites = @json(Auth::check() ? Auth::user()->favorites->pluck('anime_id')->map(fn($id) => (string) $id)->toArray() : []);
+
+		function updateComponentsFromServer() {
 			document.querySelectorAll('[data-anime-id]').forEach(btn => {
-				const id = parseInt(btn.getAttribute('data-anime-id'));
+				const id = btn.getAttribute('data-anime-id');
 				const icon = btn.querySelector('svg');
-				const list = getMyList();
-				const item = list.find(it => it.id === id);
-				const isFav = !!item;
+				const isFav = serverFavorites.includes(id);
 
 				if (isFav) {
-					// Filled Heart
 					icon.setAttribute('fill', 'currentColor');
 					icon.classList.add('text-red-500');
 					icon.classList.remove('text-white');
 
-					// If it's a card button with specific hover classes, adjust theme
-					if (item.item_type === 'manga' || btn.classList.contains('hover:bg-pink-600')) {
+					// Apply pink theme if button has pink hover class
+					if (btn.classList.contains('hover:bg-pink-600')) {
 						btn.classList.add('bg-pink-600/40');
 						btn.classList.remove('bg-black/40');
 					} else {
@@ -391,19 +424,41 @@
 						btn.classList.remove('bg-black/40');
 					}
 				} else {
-					// Outline Heart
 					icon.setAttribute('fill', 'none');
 					icon.classList.remove('text-red-500');
 					icon.classList.add('text-white');
 					btn.classList.add('bg-black/40');
-					btn.classList.remove('bg-pink-600/40', 'bg-red-600/40');
+					btn.classList.remove('bg-red-600/40', 'bg-pink-600/40');
 				}
 			});
 		}
 
+		// Replace updateComponents with our new server-aware one
+		function updateComponents() {
+			if (IS_AUTHENTICATED) {
+				updateComponentsFromServer();
+			} else {
+				// Clear any local storage remnants or just leave as is (unfavorited)
+				document.querySelectorAll('[data-anime-id]').forEach(btn => {
+					const icon = btn.querySelector('svg');
+					icon.setAttribute('fill', 'none');
+					icon.classList.remove('text-red-500');
+					icon.classList.add('text-white');
+					btn.classList.add('bg-black/40');
+					btn.classList.remove('bg-red-600/40');
+				});
+			}
+		}
+
 		// Initialize components on load
-		document.addEventListener('DOMContentLoaded', updateComponents);
+		document.addEventListener('DOMContentLoaded', () => {
+			if (IS_AUTHENTICATED) {
+				localStorage.removeItem('anime_santuy_mylist'); // Clear legacy data
+			}
+			updateComponents();
+		});
 		window.addEventListener('mylist-updated', updateComponents);
+
 
 
 		// --- ORIGINAL LOGO ANIMATION (Keep existing) ---
